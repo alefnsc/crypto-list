@@ -16,7 +16,7 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const { data, loading } = useCoinData(page);
   const [filteredData, setFilteredData] = useState<Coin[]>([]);
-  const [filterString, setFilterString] = useState<string>("");
+  const [filterString, setFilterString] = useState("");
 
   useEffect(() => {
     setFilteredData(data);
@@ -39,6 +39,19 @@ export default function Home() {
     }
   };
 
+  const handleFilterStringChange = (newFilterString: string) => {
+    setFilterString(newFilterString);
+    if (newFilterString === "") {
+      setFilteredData(data);
+    } else {
+      const currentFilteredData: Coin[] = data.filter((coin) => {
+        const regex = new RegExp(newFilterString, "gi");
+        return regex.test(coin.name);
+      });
+      setFilteredData(currentFilteredData);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -52,6 +65,8 @@ export default function Home() {
         nextDisabled={data.length < 100}
         page={page}
         onPageChange={setPage}
+        filterString={filterString}
+        onFilterStringChange={handleFilterStringChange}
       />
 
       {filteredData.length > 0 && filterString && (
