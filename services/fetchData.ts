@@ -20,18 +20,36 @@ export const useCoinData = (page: number) => {
           fetchedData = cachedData.get(page) as Coin[];
         } else {
           const response = await axios.get(
-            `https://api.coingecko.com/api/v3/coins/markets`,
+            `https://api.coingecko.com/api/v3/exchanges/`,
             {
               params: {
-                vs_currency: "usd",
-                order: "market_cap_desc",
                 per_page: 100,
                 page,
               },
             }
           );
-          fetchedData = response.data;
-          cachedData.set(page, fetchedData);
+
+          fetchedData = response.data.map((coin: any) => {
+            const {
+              id,
+              image,
+              name,
+              year_established,
+              country,
+              trust_score,
+              trade_volume_24h_btc,
+            } = coin;
+            return {
+              id,
+              image,
+              name,
+              year_established,
+              country,
+              trust_score,
+              trade_volume_24h_btc,
+            };
+          });
+          cachedData.set(page, fetchedData as Coin[]);
         }
 
         setLoading(false);

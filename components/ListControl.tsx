@@ -6,6 +6,8 @@ interface ListControlProps {
   nextDisabled: boolean;
   page: number;
   onPageChange: (page: number) => void;
+  filterString?: string;
+  onFilterStringChange?: (filterString: string) => void;
 }
 
 export default function ListControl({
@@ -13,6 +15,8 @@ export default function ListControl({
   nextDisabled,
   page,
   onPageChange,
+  filterString,
+  onFilterStringChange,
 }: ListControlProps) {
   const handleNextPage = () => {
     onPageChange(page + 1);
@@ -41,7 +45,11 @@ export default function ListControl({
           type="text"
           className="border rounded-lg shadow-md p-2"
           placeholder="Type to search..."
-          onChange={handleFilterData}
+          onChange={(e) => {
+            handleFilterData(e);
+            onFilterStringChange?.(e.target.value);
+          }}
+          value={filterString}
         />
       </div>
       <button
