@@ -1,8 +1,8 @@
-import Image from "next/image";
-
 import styles from "@/pages/index.module.css";
 
 import { Coin } from "types/coin";
+
+import Image from "next/image";
 
 interface CardListProps {
   data: Coin[];
@@ -20,7 +20,17 @@ export default function CardList({ data }: CardListProps) {
             className={`${styles.card} w-full flex flex-row justify-between items-center`}
           >
             <div className="flex flex-col items-center justify-center">
-              <Image src={coin.image} alt={coin.name} width={50} height={50} />
+              <Image
+                width={50}
+                height={50}
+                alt={coin.name}
+                onError
+                src={
+                  coin.image === "missing_small.png"
+                    ? "/fallback.webp"
+                    : coin.image
+                }
+              />
             </div>
             <div className="flex flex-col w-[60%]">
               <h3 className="font-semibold">{coin.name}</h3>
