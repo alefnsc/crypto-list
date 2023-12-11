@@ -53,7 +53,7 @@ export default function ListControl({
         />
       </div>
       <button
-        className="border rounded-lg shadow-md p-2 cursor-pointer hover:text-gray-600"
+        className="border rounded-lg shadow-md p-2 hover:cursor-pointer hover:text-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed"
         disabled={nextDisabled}
         onClick={handleNextPage}
       >
