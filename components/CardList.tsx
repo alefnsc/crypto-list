@@ -24,7 +24,6 @@ export default function CardList({ data }: CardListProps) {
                 width={50}
                 height={50}
                 alt={coin.name}
-                onError
                 src={
                   coin.image === "missing_small.png"
                     ? "/fallback.webp"
